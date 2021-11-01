@@ -1,7 +1,7 @@
 var express = require('express');
 var googlehome = require('./google-home-notifier');
-var bodyParser = require('body-parser');
 var app = express();
+const { check, validationResult } = require('express-validator');
 
 const serverPort = process.env.PORT || 8091; // default port
 const serverHost = process.env.HOST || 'localhost';
@@ -9,44 +9,48 @@ const serverHost = process.env.HOST || 'localhost';
 var deviceName = 'Google Home';
 var ip = '192.168.1.20'; // default IP
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-app.post('/google-home-notifier', urlencodedParser, function (req, res) {
-  
-  if (!req.body) return res.sendStatus(400)
-  console.log(req.body);
-  
-  var file = req.body.file;
-  
-  if (req.query.ip) {
-     ip = req.query.ip;
-  }
+app.post(
+  '/google-home-notifier', 
+  [
+      check('address').isURL({require_protocol: false}),
+      check('file').isURL({require_protocol: true}),
+      check('name').not().isEmpty()
+  ], (req, res) => {
 
-  googlehome.ip(ip);
-  googlehome.device(deviceName);
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array()});
+    }
+  
+    console.log(req.body);
 
-  if (file){
+    var file = req.body.file;
+    var ip = req.body.address;
+    var deviceName = req.body.name;
+  
+
+    googlehome.ip(ip);
+    googlehome.device(deviceName);
+
     try {
       var mp3_url = file;
       googlehome.play(mp3_url, function(notifyRes) {
         console.log(notifyRes);
-        res.send(deviceName + ' will play sound from url: ' + mp3_url + '\n');
+        res.json({message: deviceName +  ' will play sound from url: ' + mp3_url });
       });
     } catch(err) {
       console.log(err);
-      res.sendStatus(500);
-      res.send(err);
+      res.status(500).json({ errors: [err]});
     }
-  }else{
-    res.send('Please GET "file=https%3A%2F%2Fexample.com%2Fhoge.mp3"');
   }
-})
+)
 
 app.listen(serverPort, function () {
   console.log('Endpoints:');
   console.log('    http://' + serverHost + ':' + serverPort + '/google-home-notifier');
-  console.log('GET example:');
-  console.log('curl -X GET http://' + serverHost + ':' + serverPort + '/google-home-notifier?file=https%3A%2F%2Fexample.com%2Fhoge.mp3');
 	console.log('POST example:');
-	console.log('curl -X POST -d "file=Hello Google Home" http://' + serverHost + ':' + serverPort + '/google-home-notifier');
+	console.log('curl -X POST http://' + serverHost + ':' + serverPort + '/google-home-notifier -H "Content-Type: application/json" -d \'{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}');
 })
