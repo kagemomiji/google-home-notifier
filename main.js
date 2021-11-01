@@ -42,36 +42,6 @@ app.post('/google-home-notifier', urlencodedParser, function (req, res) {
   }
 })
 
-app.get('/google-home-notifier', function (req, res) {
-
-  console.log(req.query);
-
-  var file = req.query.file;
-
-  if (req.query.ip) {
-     ip = req.query.ip;
-  }
-
-  googlehome.ip(ip);
-  googlehome.device(deviceName);
-
-  if (file) {
-    try {
-      var mp3_url = file;
-      googlehome.play(mp3_url, function(notifyRes) {
-        console.log(notifyRes);
-        res.send(deviceName + ' will play sound from url: ' + mp3_url + '\n');
-      });
-    } catch(err) {
-      console.log(err);
-      res.sendStatus(500);
-      res.send(err);
-    }
-  }else{
-    res.send('Please GET "file=https%3A%2F%2Fexample.com%2Fhoge.mp3"');
-  }
-})
-
 app.listen(serverPort, function () {
   console.log('Endpoints:');
   console.log('    http://' + serverHost + ':' + serverPort + '/google-home-notifier');
