@@ -2,7 +2,9 @@ var express = require('express');
 var googlehome = require('./google-home-notifier');
 var bodyParser = require('body-parser');
 var app = express();
-const serverPort = 8091; // default port
+
+const serverPort = process.env.PORT || 8091; // default port
+const serverHost = process.env.HOST || 'localhost';
 
 var deviceName = 'Google Home';
 var ip = '192.168.1.20'; // default IP
@@ -72,9 +74,9 @@ app.get('/google-home-notifier', function (req, res) {
 
 app.listen(serverPort, function () {
   console.log('Endpoints:');
-  console.log('    http://' + ip + ':' + serverPort + '/google-home-notifier');
+  console.log('    http://' + serverHost + ':' + serverPort + '/google-home-notifier');
   console.log('GET example:');
-  console.log('curl -X GET http://' + ip + ':' + serverPort + '/google-home-notifier?file=https%3A%2F%2Fexample.com%2Fhoge.mp3');
+  console.log('curl -X GET http://' + serverHost + ':' + serverPort + '/google-home-notifier?file=https%3A%2F%2Fexample.com%2Fhoge.mp3');
 	console.log('POST example:');
-	console.log('curl -X POST -d "file=Hello Google Home" http://' + ip + ':' + serverPort + '/google-home-notifier');
+	console.log('curl -X POST -d "file=Hello Google Home" http://' + serverHost + ':' + serverPort + '/google-home-notifier');
 })
