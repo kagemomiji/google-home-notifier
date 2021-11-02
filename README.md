@@ -44,3 +44,16 @@ POST example:
 curl -X POST http://192.168.1.16:8091/google-home-notifier -H "Content-Type: application/json" -d '{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}
 
 ```
+
+## Docker Usage
+
+```bash
+$ docker-compose build 
+$ docker-compose up -d
+```
+### environment value
+
+| env | description |
+| --- | ----------- |
+| HOST | host address. default `localhost` |
+| PORT | host port. default `8091` |

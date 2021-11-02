@@ -1,0 +1,1 @@
+/Browser.defaultResolverSequence/,/\];/ s/getaddrinfo()/getaddrinfo({families:[4]})/g
