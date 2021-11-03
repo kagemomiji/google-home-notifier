@@ -19,7 +19,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ghcr.io/yoshinorin/docker-cahsper
+          images: ghcr.io/kagemomiji/google-home-notifier
       -
         # GitHub Container Registry にログインする
         name: Login to GHCR
