@@ -1,14 +1,14 @@
 openapi: '3.0.2'
 info:
   title: kagemomiji/google_home_notifier API
-  version: '1.0'
+  version: '0.0.2'
 servers:
   - url: /
 paths:
-  /google_home_notifier:
+  /cast:
     post:
       tags: 
-        - Command
+        - Cast
       summary: Cast mp3 file to Google Home Device.
       description: >
         You can cast a mp3 file to Google Home Device.   

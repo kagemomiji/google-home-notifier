@@ -38,9 +38,9 @@ If you want to run a listener, take a look at the main.js file. You can run this
 ```sh
 $ node main.js
 Endpoints:
-    http://192.168.1.20:8091/google-home-notifier
+    http://localhost:8091/cast
 POST example:
-curl -X POST http://192.168.1.16:8091/google-home-notifier -H "Content-Type: application/json" -d '{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}
+curl -X POST http://localhost:8091/cast -H "Content-Type: application/json" -d '{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}
 
 ```
 

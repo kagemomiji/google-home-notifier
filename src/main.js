@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.post(
-  '/google-home-notifier', 
+  '/cast', 
   [
       check('address').isURL({require_protocol: false}),
       check('file').isURL({require_protocol: true}),
