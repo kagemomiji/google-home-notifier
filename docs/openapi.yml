@@ -1,0 +1,89 @@
+openapi: '3.0.2'
+info:
+  title: kagemomiji/google_home_notifier API
+  version: '1.0'
+servers:
+  - url: /
+paths:
+  /google_home_notifier:
+    post:
+      tags: 
+        - Command
+      summary: Cast mp3 file to Google Home Device.
+      description: >
+        You can cast a mp3 file to Google Home Device.   
+        Set name and ip/hostname of Google Home Device and url of mp3 file.
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/NotifyRequest"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+              example:
+                message: "Living Device will play sound from url: http://example.com/test.mp3"
+        '422':
+          description: Failed validation of request body 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example: 
+                errors: 
+                  - msg: Invalid value
+                    param: name
+                    location: body
+                  - value: "" 
+                    msg: Invalid value
+                    param: address
+                    location: body
+        '500':
+          description: Internal server errors
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+
+components: 
+  schemas: 
+    NotifyRequest: 
+      type: object
+      required: 
+        - address
+        - name
+        - file
+      properties:
+        address:
+          type: string
+          example: 192.168.1.20
+        name:
+          type: string
+          example: Living Device
+        file:
+          type: string
+          example: http://example.com/test.mp3
+    
+    Response:
+      type: object
+      properties:
+        message:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string 
+       
+
+
+        
+      
+    
