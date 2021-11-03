@@ -32,9 +32,8 @@ Browser.defaultResolverSequence = [
 ];
 ```
 ## Listener
-If you want to run a listener, take a look at the example.js file. You can run this from a Raspberry Pi, pc or mac. 
-The example uses ngrok so the server can be reached from outside your network. 
-I tested with ifttt.com Maker channel and it worked like a charm.
+
+If you want to run a listener, take a look at the main.js file. You can run this from a pc or mac. 
 
 ```sh
 $ node main.js
@@ -44,6 +43,8 @@ POST example:
 curl -X POST http://192.168.1.16:8091/google-home-notifier -H "Content-Type: application/json" -d '{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}
 
 ```
+
+If you want to know API specification. Please check [here](https://kagemomiji.github.io/google-home-notifier/).
 
 ## Docker Usage
 
