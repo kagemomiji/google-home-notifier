@@ -51,6 +51,11 @@ app.post(
   }
 )
 
+app.use(function(req, res, next){
+  console.log('invalid path access : '+  req.path );
+  res.status(404).json( { errors: [ 'Not Found! :' + req.path]});
+});
+
 app.listen(serverPort, function () {
   console.log('Endpoints:');
   console.log('    ' + endpoint() + '/google-home-notifier');
