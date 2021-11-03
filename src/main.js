@@ -6,9 +6,12 @@ const { check, validationResult } = require('express-validator');
 const serverPort = process.env.PORT || 8091; // default port
 const serverHost = process.env.HOST || 'localhost';
 
-var deviceName = 'Google Home';
-var ip = '192.168.1.20'; // default IP
-
+const endpoint = () => {
+  if(serverPort == 80) return "http://" + serverHost;
+  else if (serverPort == 443) return "https://" + serverHost;
+  else return "http://" + serverHost + ":" + serverPort ;
+}
+  
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -50,7 +53,7 @@ app.post(
 
 app.listen(serverPort, function () {
   console.log('Endpoints:');
-  console.log('    http://' + serverHost + ':' + serverPort + '/google-home-notifier');
+  console.log('    ' + endpoint() + '/google-home-notifier');
 	console.log('POST example:');
-	console.log('curl -X POST http://' + serverHost + ':' + serverPort + '/google-home-notifier -H "Content-Type: application/json" -d \'{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}');
+	console.log('curl -X POST ' + endpoint() + '/google-home-notifier -H "Content-Type: application/json" -d \'{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}');
 })
