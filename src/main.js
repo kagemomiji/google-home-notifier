@@ -58,7 +58,7 @@ app.use(function(req, res, next){
 
 app.listen(serverPort, function () {
   console.log('Endpoints:');
-  console.log('    ' + endpoint() + '/google-home-notifier');
+  console.log('    ' + endpoint() + '/cast');
 	console.log('POST example:');
-	console.log('curl -X POST ' + endpoint() + '/google-home-notifier -H "Content-Type: application/json" -d \'{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}');
+	console.log('curl -X POST ' + endpoint() + '/cast -H "Content-Type: application/json" -d \'{"file":"http://example.com/example.mp3", "address": "192.168.1.20","name":"GoogleHome"}');
 })
